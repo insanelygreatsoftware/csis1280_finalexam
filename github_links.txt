@@ -1,2 +1,2 @@
-Github repo:
-Github Page(URL):
+Github repo: https://github.com/insanelygreatsoftware/csis1280_finalexam
+Github Page(URL): https://insanelygreatsoftware.github.io/csis1280_finalexam/
