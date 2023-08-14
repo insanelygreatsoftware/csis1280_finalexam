@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    #date, #day {
+      text-transform: uppercase;
+    }
+
+    .clock-col {
+      min-width: 90px;
+    }
+
+    .block {
+      display: block;
+    }
+
+    .none {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="date">
+      <p id="date"></p>
+    </div>
+    <div class="day-name">
+      <p class="day" id="day"></p>
+    </div>
+
+    <div class="clock grid--4-col">
+      <div class="clock-col">
+        <p id="hours"></p>
+        <p class="clock-label">Hours</p>
+      </div>
+      <div class="clock-col">
+        <p id="minutes"></p>
+        <p class="clock-label">Minutes</p>
+      </div>
+      <div class="clock-col">
+        <p id="seconds"></p>
+        <p class="clock-label">Seconds</p>
+      </div>
+      <div class="clock-col session block">
+        <p id="session"></p>
+      </div>
+    </div>
+    <br>
+    <div class="container--btn el">
+      <button id="toggle-btn" data-format="12">12-hr / 24-hr</button>
+    </div>
+  </div>
+
+  <script>
+    var date = document.querySelector('#date');
+    var toggleBtn = document.querySelector('#toggle-btn');
+    var weekday = document.querySelector('#day');
+    var hours = document.querySelector('#hours');
+    var minutes = document.querySelector('#minutes');
+    var seconds = document.querySelector('#seconds');
+    var clock = document.querySelector('.clock');
+    var sessionContainer = document.querySelector('.session');
+    var session = document.querySelector('#session');
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth();
+    var yyyy = today.getFullYear();
+    var day = today.getDay();
+    var monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    date.innerHTML = `${monthName[mm]} ${dd}, ${yyyy}`;
+    weekday.innerHTML = `${dayName[day]}`;
+
+    // update every second
+    setInterval(() => {
+      var format = toggleBtn.getAttribute('data-format');
+      if (format === "12") {
+        var today = new Date();
+        var hh = today.getHours();
+        var mm = today.getMinutes();
+        var ss = today.getSeconds();
+        var ampm = hh >= 12 ? 'PM' : 'AM';
+
+        // convert to 12 hour format
+        hh = hh % 12 || 12;
+
+        // set current time in time field
+        hours.innerHTML = `${hh}`;
+        minutes.innerHTML = `${mm}`;
+        seconds.innerHTML = `${ss}`;
+        session.innerHTML = `${ampm}`;
+      } else {
+        var today = new Date();
+        var hh = today.getHours();
+        var mm = today.getMinutes();
+        var ss = today.getSeconds();
+
+        // set current time in time field
+        hours.innerHTML = `${hh}`;
+        minutes.innerHTML = `${mm}`;
+        seconds.innerHTML = `${ss}`;
+      }
+    }, 5);
+
+    // toggle hour format
+    toggleBtn.addEventListener('click', () => {
+      var format = toggleBtn.getAttribute('data-format');
+      toggleBtn.setAttribute('data-format', format === '12' ? '24' : '12');
+      clock.classList.toggle('grid--4-col');
+      clock.classList.toggle('grid--3-col');
+      sessionContainer.classList.toggle('block');
+      sessionContainer.classList.toggle('none');
+    });
+  </script>
+</body>
+
+</html>
